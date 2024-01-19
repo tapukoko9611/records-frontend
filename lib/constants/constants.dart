@@ -2,7 +2,15 @@ import 'dart:io';
 
 String getUrl() {
   try {
-    return Platform.isAndroid? "http://192.168.1.2:5000/api": "http://localhost:5000/api";
+    return Platform.isAndroid? "https://records-backend.onrender.com/api": "https://records-backend.onrender.com/api";
+  } catch(e) {
+    return "https://records-backend.onrender.com/api";
+  }
+}
+
+String getUrl1() {
+  try {
+    return Platform.isAndroid? "http://192.168.1.3:5000/api": "http://localhost:5000/api";
   } catch(e) {
     return "http://localhost:5000/api";
   }
@@ -15,5 +23,5 @@ class Constants {
     TWEET,
     USER,
   ];
-  static String BASE_URL = getUrl();
+  static String BASE_URL = getUrl1();
 }

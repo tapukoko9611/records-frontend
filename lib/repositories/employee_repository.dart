@@ -10,4 +10,8 @@ class EmployeeRepository {
     return employeeApiClient.getAllEmployees();
   }
 
+  Future<Employee> addEmployee(designation, name, identity) {
+    return employeeApiClient.addEmployee(designation, name, identity);
+  }
+
 }

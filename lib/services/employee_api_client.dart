@@ -22,14 +22,37 @@ class EmployeeApiClient {
       }
     );
     if(res.statusCode != 200) {
-      print("Error: $res.msg");
-      throw Exception("Error: $res.msg");
+      throw Exception(jsonDecode(res.body)["error"]);
     }
 
     final employeeJson = jsonDecode(res.body) as List;
     final employeeList = employeeJson.map((e) => Employee.fromJson(e)).toList();
 
     return employeeList;
+  }
+
+  Future<Employee> addEmployee(designation, name, identity) async {
+    final url = "$baseUrl/employee/add";
+    final res = await httpClient.post(
+      Uri.parse(url),
+      headers: {
+        HttpHeaders.contentTypeHeader: 'application/json',
+        HttpHeaders.acceptHeader: 'application/json',
+      },
+      body: jsonEncode(
+        <String, String>{
+          "designation": designation,
+          "name": name,
+          "identity": identity
+        },
+      ),
+    );
+
+    if(res.statusCode != 200) {
+      throw Exception(jsonDecode(res.body)["error"]);
+    }
+    final addedEmployee = Employee.fromJson(jsonDecode(res.body));
+    return addedEmployee;
   }
 
 }

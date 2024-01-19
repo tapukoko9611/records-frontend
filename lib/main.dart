@@ -29,10 +29,18 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider(create: (context) => EmployeeBloc(context.read<EmployeeRepository>()))
         ],
-        child: const MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Flutter Demo',
-          home: EmployeeListScreen()
+        child: GestureDetector(
+          onTap: () {
+            FocusScopeNode currentFocus = FocusScope.of(context);
+            if(!currentFocus.hasPrimaryFocus) {
+              currentFocus.unfocus();
+            }
+          },
+          child: const MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Flutter Demo',
+            home: EmployeeListScreen()
+          ),
         ),
       ),
     );

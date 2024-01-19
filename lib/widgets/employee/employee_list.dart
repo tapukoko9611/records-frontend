@@ -1,4 +1,6 @@
 import "package:flutter/material.dart";
+import "package:records/models/employee/employee.dart";
+import "package:records/widgets/employee/add_employee.dart";
 
 Widget EmpCardRow1(String designation, String name, String? identity) => Row(
   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -107,3 +109,27 @@ Widget SingleEmpCard(
   ),
   child: EmpCard(designation, name, today, monthly, all_time, identity),
 );
+
+Widget AddEmployeeButton(BuildContext context, List<Employee> employeeList) {
+  return GestureDetector(
+    onTap: () {
+      showDialog(
+          context: context,
+          builder: (context) => AddEmployeeWidget(employeeList: employeeList)
+      );
+    },
+    child: Container(
+        width: MediaQuery
+            .of(context)
+            .size
+            .width,
+        height: 50,
+        margin: const EdgeInsets.all(10),
+        decoration: const BoxDecoration(
+            color: Colors.white38,
+            borderRadius: BorderRadius.all(Radius.circular(10))
+        ),
+        child: const Icon(Icons.add)
+    ),
+  );
+}
