@@ -9,7 +9,7 @@ Widget EmpCardRow1(String designation, String name, String? identity) => Row(
       width: 200,
       padding: const EdgeInsets.only(left: 10),
       child: Text(
-        designation??= "A-12",
+        designation,
         style: const TextStyle(
             color: Colors.black,
             fontSize: 30
@@ -20,7 +20,7 @@ Widget EmpCardRow1(String designation, String name, String? identity) => Row(
       child: Container(
         alignment: Alignment.centerRight,
         child: Text(
-            name ??= 'EmployeeNameIsSoAndSo',
+            name,
             overflow: TextOverflow.fade,
             maxLines: 1,
             softWrap: false,
@@ -101,7 +101,7 @@ Widget SingleEmpCard(
       required int today,
       required int monthly,
       required int all_time,
-    String? identity=""}) => Container(
+      String? identity=""}) => Container(
   margin: const EdgeInsets.all(10),
   decoration: const BoxDecoration(
       color: Colors.white38,

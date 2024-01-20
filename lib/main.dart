@@ -3,10 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:records/blocs/employee/employee_bloc.dart';
+import 'package:records/blocs/stationery/stationery_bloc.dart';
 import 'package:records/repositories/employee_repository.dart';
+import 'package:records/repositories/stationery_repository.dart';
 
 import 'package:records/screens/employee/employee_list_screen.dart';
+import 'package:records/screens/stationery/stationery_list_screen.dart';
 import 'package:records/services/employee_api_client.dart';
+import 'package:records/services/stationery_api_client.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,11 +27,13 @@ class MyApp extends StatelessWidget {
 
     return MultiRepositoryProvider(
       providers: [
-        RepositoryProvider(create: (context) => EmployeeRepository(employeeApiClient: EmployeeApiClient()))
+        RepositoryProvider(create: (context) => EmployeeRepository(employeeApiClient: EmployeeApiClient())),
+        RepositoryProvider(create: (context) => StationeryRepository(stationeryApiClient: StationeryApiClient()))
       ],
       child: MultiBlocProvider(
         providers: [
-          BlocProvider(create: (context) => EmployeeBloc(context.read<EmployeeRepository>()))
+          BlocProvider(create: (context) => EmployeeBloc(context.read<EmployeeRepository>())),
+          BlocProvider(create: (context) => StationeryBloc(context.read<StationeryRepository>()))
         ],
         child: GestureDetector(
           onTap: () {
@@ -39,7 +45,7 @@ class MyApp extends StatelessWidget {
           child: const MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Flutter Demo',
-            home: EmployeeListScreen()
+            home: StationeryListScreen()
           ),
         ),
       ),

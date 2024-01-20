@@ -10,7 +10,7 @@ String getUrl() {
 
 String getUrl1() {
   try {
-    return Platform.isAndroid? "http://192.168.1.3:5000/api": "http://localhost:5000/api";
+    return Platform.isAndroid? "http://192.168.1.4:5000/api": "http://localhost:5000/api";
   } catch(e) {
     return "http://localhost:5000/api";
   }
@@ -23,5 +23,5 @@ class Constants {
     TWEET,
     USER,
   ];
-  static String BASE_URL = getUrl1();
+  static String BASE_URL = getUrl();
 }

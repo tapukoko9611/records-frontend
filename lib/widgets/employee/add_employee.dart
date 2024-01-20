@@ -354,7 +354,7 @@ class _AddEmployeeWidgetState extends State<AddEmployeeWidget> {
                                 errorMessage = Container(
                                   padding: const EdgeInsets.all(10),
                                   child: const Text(
-                                    "Please fill all the fields you dumb mf!!!!",
+                                    "Please fill all the fields!",
                                     textAlign: TextAlign.center,
                                     overflow: TextOverflow.visible,
                                     maxLines: 2,

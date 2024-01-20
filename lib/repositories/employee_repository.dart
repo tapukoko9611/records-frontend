@@ -13,5 +13,4 @@ class EmployeeRepository {
   Future<Employee> addEmployee(designation, name, identity) {
     return employeeApiClient.addEmployee(designation, name, identity);
   }
-
 }
