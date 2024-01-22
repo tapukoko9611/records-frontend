@@ -1,24 +1,24 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'employee.dart';
+part of 'supplier.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Employee _$EmployeeFromJson(Map<String, dynamic> json) => Employee(
+Supplier _$SupplierFromJson(Map<String, dynamic> json) => Supplier(
       id: json['_id'] as String,
       name: json['name'] as String,
-      designation: json['designation'] as String,
+      organization: json['organization'] as String,
       count: (json['count'] as List<dynamic>?)?.map((e) => e as int).toList() ??
           const [0, 0, 0],
       identity: json['identity'] as String?,
     );
 
-Map<String, dynamic> _$EmployeeToJson(Employee instance) => <String, dynamic>{
+Map<String, dynamic> _$SupplierToJson(Supplier instance) => <String, dynamic>{
       '_id': instance.id,
       'name': instance.name,
-      'designation': instance.designation,
+      'organization': instance.organization,
       'identity': instance.identity,
       'count': instance.count,
     };

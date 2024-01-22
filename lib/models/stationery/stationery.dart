@@ -22,8 +22,8 @@ class Stationery {
     required this.name,
     required this.quantity,
     this.image,
-    required this.demand,
-    required this.supply,
+    this.demand = const [0, 0 ,0],
+    this.supply = const [0, 0, 0],
   });
 
   factory Stationery.fromJson(Map<String, dynamic> json) => _$StationeryFromJson(json);

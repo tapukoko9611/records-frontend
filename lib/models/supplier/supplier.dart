@@ -1,27 +1,27 @@
 import "package:json_annotation/json_annotation.dart";
 
-part "employee.g.dart";
+part "supplier.g.dart";
 
 @JsonSerializable(explicitToJson: true)
-class Employee {
+class Supplier {
 
   @JsonKey(name: "_id")
   String id;
 
   String name;
-  String designation;
+  String organization;
   String? identity;
 
   List<int> count;
 
-  Employee({
+  Supplier({
     required this.id,
     required this.name,
-    required this.designation,
+    required this.organization,
     this.count = const [0, 0, 0],
     this.identity,
   });
 
-  factory Employee.fromJson(Map<String, dynamic> json) => _$EmployeeFromJson(json);
-  Map<String, dynamic> toJson() => _$EmployeeToJson(this);
+  factory Supplier.fromJson(Map<String, dynamic> json) => _$SupplierFromJson(json);
+  Map<String, dynamic> toJson() => _$SupplierToJson(this);
 }

@@ -3,7 +3,7 @@ import "package:flutter/material.dart";
 import "package:cupertino_icons/cupertino_icons.dart";
 import "package:intl/intl.dart";
 
-Widget TitleCard({String designation="A-12", String name="EmployeeNameIsSoAndSo"}) => Container(
+Widget TitleCard({String designation="A-12", String name="EmployeeNameIsSoAndSoadsfasfsf"}) => Container(
   decoration: const BoxDecoration(
     color: Colors.amberAccent,
     borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -26,119 +26,110 @@ Widget TitleCard({String designation="A-12", String name="EmployeeNameIsSoAndSo"
         decoration: const BoxDecoration(
 
         ),
-        child: Expanded(
-          flex: 1,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                padding: const EdgeInsets.only(left: 10, right: 10),
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  // color: Colors.white,
-                ),
-                child: Text(
-                  designation,
-                  style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 30,
-                      fontWeight: FontWeight.w700
-                  ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: const EdgeInsets.only(left: 10, right: 10),
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                // color: Colors.white,
+              ),
+              child: Text(
+                designation,
+                style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 30,
+                    fontWeight: FontWeight.w700
                 ),
               ),
-              Container(
-                padding: const EdgeInsets.only(left: 10, right: 10),
-                width: 300,
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  // color: Colors.white38,
-                ),
-                child: Text(
-                  name,
-                  overflow: TextOverflow.fade,
-                  maxLines: 1,
-                  softWrap: false,
-                  style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w400
-                  ),
+            ),
+            Container(
+              padding: const EdgeInsets.only(left: 10, right: 10),
+              width: 300,
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                // color: Colors.white38,
+              ),
+              child: Text(
+                name,
+                overflow: TextOverflow.fade,
+                maxLines: 1,
+                softWrap: false,
+                style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w400
                 ),
               ),
-              // Text(
-              //   "${DateTime.now()}"
-              // )
-            ],
-          ),
+            ),
+            // Text(
+            //   "${DateTime.now()}"
+            // )
+          ],
         ),
       ),
     ],
   ),
 );
 
-Widget EssentialRow(int index, changeState, state) => GestureDetector(
-  onTap: () {
-    changeState(index);
-  },
-  child:   Container(
-    margin: const EdgeInsets.all(10),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Container(
-          padding: EdgeInsets.all(10),
-          child: Expanded(
-            child: Row(
-              children: [
-                const Icon(
-                  CupertinoIcons.circle,
-                  color: Colors.black45,
-                  size: 15.0,
-                  semanticLabel: "Profile pic of the employee",
-                ),
-                Container(
-                  width: 180,
-                  child: const Text(
-                    "REFERENCE_NUMBER_00012234",
-                    overflow: TextOverflow.fade,
-                    maxLines: 1,
-                    softWrap: false,
-                    style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black
-                    ),
-                  ),
-                )
-              ],
+
+Widget EssentialRow() => Container(
+  margin: const EdgeInsets.all(10),
+  child: Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Container(
+        padding: EdgeInsets.all(10),
+        child: Row(
+          children: [
+            const Icon(
+              CupertinoIcons.circle,
+              color: Colors.black45,
+              size: 15.0,
+              semanticLabel: "Profile pic of the employee",
             ),
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.all(10),
-          child: Row(
-            children: [
-              const Icon(
-                CupertinoIcons.circle,
-                color: Colors.black45,
-                size: 15.0,
-                semanticLabel: "Profile pic of the employee",
-              ),
-              Container(
-                child: Text(
-                  "${DateFormat('d-M-y').format(DateTime.now())}",
-                  style: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black
-                  ),
+            Container(
+              width: 180,
+              child: const Text(
+                "REFERENCE_NUMBER_00012234",
+                overflow: TextOverflow.fade,
+                maxLines: 1,
+                softWrap: false,
+                style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black
                 ),
-              )
-            ],
-          ),
+              ),
+            )
+          ],
         ),
-      ],
-    ),
+      ),
+      Container(
+        padding: const EdgeInsets.all(10),
+        child: Row(
+          children: [
+            const Icon(
+              Icons.calendar_month,
+              color: Colors.black45,
+              size: 15.0,
+              semanticLabel: "Date",
+            ),
+            Container(
+              child: Text(
+                "${DateFormat('d-M-y').format(DateTime.now())}",
+                style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    ],
   ),
 );
 
@@ -153,31 +144,29 @@ Widget Item({String name="item name", int quantity=10}) => Container(
     children: [
       Container(
         padding: EdgeInsets.all(15),
-        child: Expanded(
-          child: Row(
-            children: [
-              const Icon(
-                CupertinoIcons.circle,
-                color: Colors.black45,
-                size: 12.0,
-                semanticLabel: "Profile pic of the employee",
-              ),
-              Container(
-                width: 180,
-                child: Text(
-                  name,
-                  overflow: TextOverflow.fade,
-                  maxLines: 1,
-                  softWrap: false,
-                  style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black
-                  ),
+        child: Row(
+          children: [
+            const Icon(
+              CupertinoIcons.circle,
+              color: Colors.black45,
+              size: 12.0,
+              semanticLabel: "Profile pic of the employee",
+            ),
+            Container(
+              width: 180,
+              child: Text(
+                name,
+                overflow: TextOverflow.fade,
+                maxLines: 1,
+                softWrap: false,
+                style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black
                 ),
-              )
-            ],
-          ),
+              ),
+            )
+          ],
         ),
       ),
       Container(
@@ -217,18 +206,54 @@ Widget ItemList() => Container(
     )
 );
 
-Widget Transactions(int index, changeState, state) {
-  return Container(
-    margin: const EdgeInsets.all(10),
-    decoration: const BoxDecoration(
-      borderRadius: BorderRadius.all(Radius.circular(10)),
-      color: Colors.pinkAccent,
-    ),
-    child:   Column(
-      children: [
-        EssentialRow(index, changeState, state),
-        state[index]? ItemList(): Container(),
-      ],
 
-    ),
-  );}
+class TransactionListWidget extends StatefulWidget {
+  const TransactionListWidget({super.key});
+
+  @override
+  State<TransactionListWidget> createState() => _TransactionListWidgetState();
+}
+
+class _TransactionListWidgetState extends State<TransactionListWidget> {
+
+  bool showList = false;
+  Widget list = Container();
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onLongPress: () {
+        showDialog(context: context, builder: (_) => AlertDialog(
+          content: Text("Long Pressed"),
+        ));
+      },
+      onTap: () {
+        if(showList) {
+          setState(() {
+            showList = false;
+            list = ItemList();
+          });
+        }
+        else {
+          setState(() {
+            showList = true;
+            list = Container();
+          });
+        }
+      },
+      child: Container(
+        margin: const EdgeInsets.all(10),
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          color: Colors.pinkAccent,
+        ),
+        child: Column(
+          children: [
+            EssentialRow(),
+            list
+          ],
+        ),
+      ),
+    );
+  }
+}
