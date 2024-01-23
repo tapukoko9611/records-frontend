@@ -65,10 +65,12 @@ Widget ItemCardRow2(List<int> demand, List<int> supply, int quantity) => Row(
     Row(
       children: [
         Container(
-          decoration: const BoxDecoration(
-              color: Colors.greenAccent,
+          decoration: BoxDecoration(
+              color: Colors.redAccent,
               borderRadius: BorderRadius.only(topLeft: Radius.circular(10), bottomLeft: Radius.circular(10)),
           ),
+          width: 50,
+          alignment: Alignment.center,
           padding: const EdgeInsets.all(5),
           child: Text(
             "${demand[0]}",
@@ -80,9 +82,11 @@ Widget ItemCardRow2(List<int> demand, List<int> supply, int quantity) => Row(
         ),
         Container(
           decoration: const BoxDecoration(
-            color: Colors.redAccent,
+            color: Colors.greenAccent,
             borderRadius: BorderRadius.only(topRight: Radius.circular(10), bottomRight: Radius.circular(10)),
           ),
+          width: 50,
+          alignment: Alignment.center,
           padding: const EdgeInsets.all(5),
           child: Text(
             "${supply[0]}",
@@ -98,9 +102,11 @@ Widget ItemCardRow2(List<int> demand, List<int> supply, int quantity) => Row(
       children: [
         Container(
           decoration: const BoxDecoration(
-            color: Colors.greenAccent,
+            color: Colors.redAccent,
             borderRadius: BorderRadius.only(topLeft: Radius.circular(10), bottomLeft: Radius.circular(10)),
           ),
+          width: 50,
+          alignment: Alignment.center,
           padding: const EdgeInsets.all(5),
           child: Text(
             "${demand[1]}",
@@ -112,9 +118,11 @@ Widget ItemCardRow2(List<int> demand, List<int> supply, int quantity) => Row(
         ),
         Container(
           decoration: const BoxDecoration(
-            color: Colors.redAccent,
+            color: Colors.greenAccent,
             borderRadius: BorderRadius.only(topRight: Radius.circular(10), bottomRight: Radius.circular(10)),
           ),
+          width: 50,
+          alignment: Alignment.center,
           padding: const EdgeInsets.all(5),
           child: Text(
             "${supply[1]}",
@@ -130,9 +138,11 @@ Widget ItemCardRow2(List<int> demand, List<int> supply, int quantity) => Row(
       children: [
         Container(
           decoration: const BoxDecoration(
-            color: Colors.greenAccent,
+            color: Colors.redAccent,
             borderRadius: BorderRadius.only(topLeft: Radius.circular(10), bottomLeft: Radius.circular(10)),
           ),
+          width: 50,
+          alignment: Alignment.center,
           padding: const EdgeInsets.all(5),
           child: Text(
             "${demand[2]}",
@@ -144,9 +154,11 @@ Widget ItemCardRow2(List<int> demand, List<int> supply, int quantity) => Row(
         ),
         Container(
           decoration: const BoxDecoration(
-            color: Colors.redAccent,
+            color: Colors.greenAccent,
             borderRadius: BorderRadius.only(topRight: Radius.circular(10), bottomRight: Radius.circular(10)),
           ),
+          width: 50,
+          alignment: Alignment.center,
           padding: const EdgeInsets.all(5),
           child: Text(
             quantity>supply[2]+demand[2]? "${quantity-demand[2]}" :"${supply[2]}",

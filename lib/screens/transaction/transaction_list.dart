@@ -21,15 +21,35 @@ class _TransactionListScreenState extends State<TransactionListScreen> {
   List<dynamic> filteredList = [];
   Icon _searchIcon = const Icon(Icons.search);
   Widget _appBarTitle = const Text("Transaction List");
-  Widget? tempWidget;
   FocusNode focusNode = FocusNode();
+
+  Widget? tempWidget;
+
+  List<String> displays = ["EMPLOYEE WISE", "STATIONERY WISE"];
+  int displayWise = 0; // employee, stationery - %2=0,1
+  // Widget? displayWiseWidget;
+  void changeDisplayWise() {
+    setState(() {
+      displayWise = (displayWise+1)%2;
+    });
+  }
+
+  List<String> shows = ["ALL", "DEMANDS", "SUPPLIES"];
+  int showWise = 0; // all, demand, supply - %3=0,1,2
+  // Widget? showWiseWidget;
+  void changeShowWise() {
+    setState(() {
+      showWise = (showWise+1)%3;
+    });
+  }
+
 
   _TransactionListScreenState() {
     _filter.addListener(() {
       if(_filter.text.isEmpty) {
         setState(() {
           _searchText = "";
-          filteredList = _getDateWiseList(transactionList);
+          filteredList = _getEmployeeWiseList(transactionList);
           tempWidget = AddTransactionButton(context);
         });
       }
@@ -72,7 +92,7 @@ class _TransactionListScreenState extends State<TransactionListScreen> {
       else {
         _searchIcon = const Icon(Icons.search);
         _appBarTitle = const Text("Transaction List");
-        filteredList = _getDateWiseList(transactionList);
+        filteredList = displayWise==0? _getEmployeeWiseList(transactionList): _getStationeryWiseList(transactionList);
         _filter.clear();
       }
     });
@@ -123,7 +143,8 @@ class _TransactionListScreenState extends State<TransactionListScreen> {
 
               transactionList =  state.transactionList;
               transactionList.sort((a, b) => a.date.isBefore(b.date) == true? 1: 0);
-              filteredList = _getDateWiseList(transactionList);
+              filteredList = displayWise==0? _getEmployeeWiseList(transactionList): _getStationeryWiseList(transactionList);
+              // print(_getStationeryWiseList(transactionList));
               tempWidget = AddTransactionButton(context);
 
               if(_searchText.isNotEmpty) {
@@ -138,7 +159,8 @@ class _TransactionListScreenState extends State<TransactionListScreen> {
                 }
               }
 
-              return GestureDetector(
+              return GestureDetector
+                (
                 child: SingleChildScrollView(
                     physics: const ClampingScrollPhysics(),
                     scrollDirection: Axis.vertical,
@@ -146,10 +168,29 @@ class _TransactionListScreenState extends State<TransactionListScreen> {
                     keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                     child: Column(
                         children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              SortButton(context, displays[displayWise], changeDisplayWise),
+                              SortButton(context, shows[showWise], changeShowWise),
+                            ],
+                          ),
                           tempWidget!,
-                          ...filteredList.map((dateWise) {
-                            return DateWiseWidget(date: dateWise["date"], transactions: dateWise["transactions"]);
-                          }).toList()
+                          // ...filteredList.map((dateWise) {
+                          //   if(showWise==1 && dateWise["hasDemand"]==true) {
+                          //     return EmployeeWiseWidget(date: dateWise["date"], transactions: dateWise["transactions"], show: showWise,);
+                          //   }
+                          //   else if(showWise==2 && dateWise["hasSupply"]==true) {
+                          //     return EmployeeWiseWidget(date: dateWise["date"], transactions: dateWise["transactions"], show: showWise,);
+                          //   }
+                          //   else{
+                          //     return EmployeeWiseWidget(date: dateWise["date"], transactions: dateWise["transactions"], show: showWise,);
+                          //   }
+                          //   // else {
+                          //   //   return Container();
+                          //   // }
+                          // }).toList()
+                          ..._buildListBody(context, filteredList)
                         ]
                     )
                 ),
@@ -159,7 +200,44 @@ class _TransactionListScreenState extends State<TransactionListScreen> {
     );
   }
 
-  List<dynamic> _getDateWiseList(List<Transaction> list) {
+  List _buildListBody(BuildContext context, List filteredList) {
+    if(displayWise==0) {
+      return filteredList.map((dateWise) {
+        if(showWise==1 && dateWise["hasDemand"]==true) {
+          return EmployeeWiseWidget(date: dateWise["date"], transactions: dateWise["transactions"], show: showWise,);
+        }
+        else if(showWise==2 &&
+            dateWise["hasSupply"]==true) {
+          return EmployeeWiseWidget(date: dateWise["date"], transactions: dateWise["transactions"], show: showWise,);
+        }
+        else if(showWise==0){
+          return EmployeeWiseWidget(date: dateWise["date"], transactions: dateWise["transactions"], show: showWise,);
+        }
+        else {
+          return Container();
+        }
+      }).toList();
+    }
+    else {
+      return filteredList.map((dateWise) {
+        if(showWise==1 && dateWise["hasDemand"]==true) {
+          return StationeryWiseWidget(date: dateWise["date"], transactions: dateWise["stationery"], show: showWise,);
+        }
+        else if(showWise==2 && dateWise["hasSupply"]==true) {
+          print(dateWise);
+          return StationeryWiseWidget(date: dateWise["date"], transactions: dateWise["stationery"], show: showWise,);
+        }
+        else if(showWise==0){
+          return StationeryWiseWidget(date: dateWise["date"], transactions: dateWise["stationery"], show: showWise,);
+        }
+        else {
+          return Container();
+        }
+      }).toList();
+    }
+  }
+
+  List<dynamic> _getEmployeeWiseList(List<Transaction> list) {
     var dateWiseList = [];
     for (var transaction in list) {
       var date = DateFormat('d-M-y').format(transaction.date);
@@ -171,13 +249,137 @@ class _TransactionListScreenState extends State<TransactionListScreen> {
             ...dateWiseList[i]["transactions"],
             transaction
           ];
+          if(transaction.employee!=null) {
+            dateWiseList[i]["hasDemand"] = true;
+          }
+          if(transaction.supplier!=null) {
+            dateWiseList[i]["hasSupply"] = true;
+          }
         }
       }
       if (!hasDate) {
         dateWiseList.add({
           "date": date,
-          "transactions": [transaction]
+          "transactions": [transaction],
+          "hasDemand": transaction.employee!=null? true: false,
+          "hasSupply": transaction.supplier!=null? true: false,
         });
+      }
+    }
+    return dateWiseList;
+  }
+
+  List<dynamic> _getStationeryWiseList(List<Transaction> list) {
+    var dateWiseList = [];
+    for(var transaction in list) {
+      var hasDate = false;
+      for(int i=0; i<dateWiseList.length; i++) {
+        if(dateWiseList[i]["date"] == DateFormat('d-M-y').format(transaction.date)) {
+          hasDate = true;
+          for(var item in transaction.transactionItems!) {
+            var hasItem = false;
+            for(int j=0; j<dateWiseList[i]["stationery"].length; j++) {
+              if(dateWiseList[i]["stationery"][j]["name"] == item.item.name) {
+                hasItem = true;
+                dateWiseList[i]["stationery"][j]["transactions"] = [
+                  ...dateWiseList[i]["stationery"][j]["transactions"],
+                  {
+                    "person": transaction.employee!=null? transaction.employee!.designation: transaction.supplier!=null? transaction.supplier!.organization: "DELETED SUPPLIER",
+                    "reference": transaction.reference,
+                    "quantity": item.quantity,
+                    "remarks": transaction.remarks+item.remarks
+                  }
+                ];
+                if(item.type=="DEMAND") {
+                  dateWiseList[i]["stationery"][j]["demand"] += item.quantity;
+                  dateWiseList[i]["hasDemand"] = true;
+                }
+                else if(item.type=="SUPPLY") {
+                  dateWiseList[i]["stationery"][j]["supply"] += item.quantity;
+                  dateWiseList[i]["hasSupply"] = true;
+                }
+              }
+            }
+            if(hasItem==false) {
+              dateWiseList[i]["stationery"].add({
+                "name": item.item.name,
+                "demand": item.type=="DEMAND"? item.quantity: 0,
+                "supply": item.type=="SUPPLY"? item.quantity: 0,
+                "transactions": [
+                  {
+                    "person": transaction.employee != null
+                        ? transaction.employee!.designation
+                        : transaction.supplier != null
+                            ? transaction.supplier!.organization
+                            : "DELETED SUPPLIER",
+                    "reference": transaction.reference,
+                    "quantity": item.quantity,
+                    "remarks": transaction.remarks + item.remarks
+                  }
+                ]
+              });
+              if(item.type=="DEMAND") {
+                dateWiseList[i]["hasDemand"] = true;
+              }
+              else if(item.type=="SUPPLY") {
+                dateWiseList[i]["hasSupply"] = true;
+              }
+            }
+          }
+        }
+      }
+      if(hasDate==false) {
+        dateWiseList.add({
+          "date": DateFormat('d-M-y').format(transaction.date),
+          "hasDemand": false,
+          "hasSupply": false,
+          "stationery": []
+        });
+        var i = dateWiseList.length-1;
+        for(var item in transaction.transactionItems!) {
+          var hasItem = false;
+          for(int j=0; j<dateWiseList[i]["stationery"].length; j++) {
+            if(dateWiseList[i]["stationery"][j]["name"] == item.item.name) {
+              hasItem = true;
+              dateWiseList[i]["stationery"][j]["transactions"] = [
+                ...dateWiseList[i]["stationery"][j]["transactions"],
+                {
+                  "person": transaction.employee!=null? transaction.employee!.designation: transaction.supplier!=null? transaction.supplier!.organization: "DELETED SUPPLIER",
+                  "reference": transaction.reference,
+                  "quantity": item.quantity,
+                  "remarks": transaction.remarks+item.remarks
+                }
+              ];
+              if(item.type=="DEMAND") {
+                dateWiseList[i]["stationery"][j]["demand"] += item.quantity;
+                dateWiseList[i]["hasDemand"] = true;
+              }
+              else if(item.type=="SUPPLY") {
+                dateWiseList[i]["stationery"][j]["supply"] += item.quantity;
+                dateWiseList[i]["hasSupply"] = true;
+              }
+            }
+          }
+          if(hasItem==false) {
+            dateWiseList[i]["stationery"].add({
+              "name": item.item.name,
+              "demand": item.type=="DEMAND"? item.quantity: 0,
+              "supply": item.type=="SUPPLY"? item.quantity: 0,
+              "transactions": [{
+                "person": transaction.employee!=null? transaction.employee!.designation: transaction.supplier!=null? transaction.supplier!.organization: "DELETED SUPPLIER",
+                "reference": transaction.reference,
+                "quantity": item.quantity,
+                "remarks": transaction.remarks+item.remarks
+              }]
+            });
+            if(item.type=="DEMAND") {
+              dateWiseList[i]["hasDemand"] = true;
+            }
+            else if(item.type=="SUPPLY") {
+              dateWiseList[i]["hasSupply"] = true;
+            }
+          }
+        }
       }
     }
     return dateWiseList;

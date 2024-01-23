@@ -201,10 +201,11 @@ class _AddEmployeeWidgetState extends State<AddEmployeeWidget> {
                         height: 60,
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
-                            color:Colors.yellow.withOpacity(0.2),
+                            color:Colors.amberAccent.shade400.withOpacity(0.4),
                             border: Border(
                                 bottom: BorderSide(color: Colors.grey.withOpacity(0.3))
-                            )
+                            ),
+                            borderRadius: BorderRadius.only(topLeft: Radius.circular(28), topRight: Radius.circular(28))
                         ),
                         child: const Center(
                             child: Text(
