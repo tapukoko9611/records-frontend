@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:records/models/employee/employee.dart";
+import "package:records/screens/employee/employee_record.dart";
 import "package:records/widgets/employee/add_employee.dart";
 
 Widget EmpCardRow1(String designation, String name, String? identity) => Row(
@@ -96,19 +97,27 @@ Widget EmpCard(String designation, String name, int today, int monthly, int all_
 );
 
 Widget SingleEmpCard(
-    {required String designation,
+    {required String id,
+      required String designation,
       required String name,
       required int today,
       required int monthly,
       required int all_time,
-      String? identity=""}) => Container(
-  margin: const EdgeInsets.all(10),
-  decoration: const BoxDecoration(
-      color: Colors.white38,
-      borderRadius: BorderRadius.all(Radius.circular(10))
-  ),
-  child: EmpCard(designation, name, today, monthly, all_time, identity),
-);
+      String? identity="",
+      required BuildContext context
+    }) => GestureDetector(
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => EmployeeRecordScreen(id: id)));
+        },
+        child: Container(
+          margin: const EdgeInsets.all(10),
+          decoration: const BoxDecoration(
+        color: Colors.white38,
+        borderRadius: BorderRadius.all(Radius.circular(10))
+          ),
+          child: EmpCard(designation, name, today, monthly, all_time, identity),
+        ),
+      );
 
 Widget AddEmployeeButton(BuildContext context, List<Employee> employeeList) {
   return GestureDetector(

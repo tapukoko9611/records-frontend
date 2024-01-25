@@ -1,5 +1,7 @@
 import "package:json_annotation/json_annotation.dart";
 
+import "../transaction/transaction.dart";
+
 part "employee.g.dart";
 
 @JsonSerializable(explicitToJson: true)
@@ -13,6 +15,7 @@ class Employee {
   String? identity;
 
   List<int> count;
+  List<Transaction> transactions;
 
   Employee({
     required this.id,
@@ -20,6 +23,7 @@ class Employee {
     required this.designation,
     this.count = const [0, 0, 0],
     this.identity,
+    this.transactions = const []
   });
 
   factory Employee.fromJson(Map<String, dynamic> json) => _$EmployeeFromJson(json);

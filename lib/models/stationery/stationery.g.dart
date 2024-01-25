@@ -18,6 +18,10 @@ Stationery _$StationeryFromJson(Map<String, dynamic> json) => Stationery(
       supply:
           (json['supply'] as List<dynamic>?)?.map((e) => e as int).toList() ??
               const [0, 0, 0],
+      transactions: (json['transactions'] as List<dynamic>?)
+              ?.map((e) => Transaction.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$StationeryToJson(Stationery instance) =>
@@ -28,4 +32,5 @@ Map<String, dynamic> _$StationeryToJson(Stationery instance) =>
       'demand': instance.demand,
       'supply': instance.supply,
       'image': instance.image,
+      'transactions': instance.transactions.map((e) => e.toJson()).toList(),
     };

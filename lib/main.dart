@@ -36,7 +36,7 @@ class _MyAppState extends State<MyApp> {
     const StationeryListScreen(),
     const TransactionListScreen()
   ];
-  int _index = 2;
+  int _index = 0;
 
   @override
   Widget build(BuildContext context) {

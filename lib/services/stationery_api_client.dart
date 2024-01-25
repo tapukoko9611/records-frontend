@@ -55,4 +55,64 @@ class StationeryApiClient {
     return addedStationery;
   }
 
+  Future<Map> updateStationery(id, name, quantity, image) async {
+    final url = "$baseUrl/stationery/update/$id";
+    final res = await httpClient.put(
+      Uri.parse(url),
+      headers: {
+        HttpHeaders.contentTypeHeader: 'application/json',
+        HttpHeaders.acceptHeader: 'application/json',
+      },
+      body: jsonEncode(
+        <String, String>{
+          "name": name,
+          "quantity": quantity.toString(),
+          "image": image
+        },
+      ),
+    );
+
+    if(res.statusCode != 200) {
+      throw Exception(jsonDecode(res.body)["error"]);
+    }
+    final updatedStationery = jsonDecode(res.body);
+    return updatedStationery;
+  }
+
+  Future<Map> deleteStationery(id) async {
+    final url = "$baseUrl/stationery/delete/$id";
+    final res = await httpClient.delete(
+      Uri.parse(url),
+      headers: {
+        HttpHeaders.contentTypeHeader: 'application/json',
+        HttpHeaders.acceptHeader: 'application/json',
+      }
+    );
+
+    if(res.statusCode != 200) {
+      throw Exception(jsonDecode(res.body)["error"]);
+    } else {
+      return jsonDecode(res.body);
+    }
+  }
+
+  Future<Stationery> getStationeryRecords(id) async {
+    final url = "$baseUrl/query/stationery/$id";
+    final res = await httpClient.get(
+        Uri.parse(url),
+        headers: {
+          HttpHeaders.contentTypeHeader: "application/json",
+          HttpHeaders.acceptHeader: "application/json"
+        }
+    );
+    if(res.statusCode != 200) {
+      throw Exception(jsonDecode(res.body)["error"]);
+    }
+
+    final stationeryJson = jsonDecode(res.body);
+    final stationeryRecords = Stationery.fromJson(stationeryJson);
+
+    return stationeryRecords;
+  }
+
 }

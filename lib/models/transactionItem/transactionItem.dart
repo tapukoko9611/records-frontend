@@ -10,7 +10,7 @@ class TransactionItem {
   String id;
 
   @JsonKey(name: "item")
-  Stationery item;
+  Stationery? item;
   int quantity;
   String type;
   String remarks;
@@ -18,7 +18,7 @@ class TransactionItem {
 
   TransactionItem({
     required this.id,
-    required this.item,
+    this.item,
     required this.quantity,
     required this.type,
     required this.reference,

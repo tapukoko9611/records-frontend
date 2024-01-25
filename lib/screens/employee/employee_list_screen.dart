@@ -17,6 +17,7 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> with SingleTick
   final TextEditingController _filter = TextEditingController();
   String _searchText = "";
   List<Employee> employeeList = [];
+  List<Employee> empList = [];
   List<Employee> filteredList = [];
   Icon _searchIcon = const Icon(Icons.search);
   Widget _appBarTitle = const Text("Employee List");
@@ -109,9 +110,15 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> with SingleTick
         ),
         child: BlocConsumer<EmployeeBloc, EmployeeState>(
             listener: (context, state) {
-              if(state is EmployeeInitial) {}
+              print("Listening state");
+              print(state);
+              // if(state is EmployeeRecordLoaded) {
+              //   employeeList = state.employeeListWithARecord;
+              // }
             },
             builder: (context, state) {
+              print("Employee List Screen state: ");
+              print(state);
               if(state is EmployeeListFailure) {
                 // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.error)));
                 return Center(
@@ -140,16 +147,28 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> with SingleTick
               //   return const Center(child: CircularProgressIndicator.adaptive(),);
               // }
 
-              if(state is! EmployeeListLoaded) {
-                return const Center(child: CircularProgressIndicator.adaptive(),);
-              }
 
               // final employeeList = state.employeeList;
               // employeeList.sort((a, b) => a.designation.compareTo(b.designation));
               // var searchList = employeeList;
 
               // setState(() {
-              employeeList =  state.employeeList;
+
+              // if(state is! EmployeeListLoaded) {
+              //   return const Center(child: CircularProgressIndicator.adaptive(),);
+              // }
+              // employeeList =  state.employeeList;
+
+              if (state is EmployeeListLoading) {
+                return const Center(child: CircularProgressIndicator.adaptive(),);
+              }
+              if (state is EmployeeListLoaded) {
+                employeeList = state.employeeList;
+              }
+              if (state is EmployeeRecordLoaded) {
+                employeeList = state.employeeListWithARecord;
+              }
+
               employeeList.sort((a, b) => a.designation.compareTo(b.designation));
               filteredList = employeeList;
               tempWidget = AddEmployeeButton(context, employeeList);
@@ -192,12 +211,14 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> with SingleTick
                         tempWidget!,
                         ...filteredList.map((employee) {
                           return SingleEmpCard(
-                              designation: employee.designation,
-                              identity: employee.identity,
-                              name: employee.name,
-                              today: employee.count[0],
-                              monthly: employee.count[1],
-                              all_time: employee.count[2]
+                            id: employee.id,
+                            designation: employee.designation,
+                            identity: employee.identity,
+                            name: employee.name,
+                            today: employee.count[0],
+                            monthly: employee.count[1],
+                            all_time: employee.count[2],
+                            context: context
                           );
                         }).toList(),
                       ]
@@ -286,12 +307,14 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> with SingleTick
                   child: Column(
                       children: filteredList.map((employee) {
                         return SingleEmpCard(
+                            id: employee.id,
                             designation: employee.designation,
                             identity: employee.identity,
                             name: employee.name,
                             today: employee.count[0],
                             monthly: employee.count[1],
-                            all_time: employee.count[2]
+                            all_time: employee.count[2],
+                            context: context
                         );
                       }).toList()
                   )

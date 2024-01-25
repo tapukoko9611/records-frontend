@@ -13,4 +13,16 @@ class EmployeeRepository {
   Future<Employee> addEmployee(designation, name, identity) {
     return employeeApiClient.addEmployee(designation, name, identity);
   }
+
+  Future<Map> updateEmployee(id, designation, name, identity) {
+    return employeeApiClient.updateEmployee(id, designation, name, identity);
+  }
+
+  Future<Map> deleteEmployee(id) {
+    return employeeApiClient.deleteEmployee(id);
+  }
+
+  Future<Employee> getEmployeeRecord(id) {
+    return employeeApiClient.getEmployeeRecord(id);
+  }
 }

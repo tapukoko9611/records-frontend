@@ -13,6 +13,10 @@ Employee _$EmployeeFromJson(Map<String, dynamic> json) => Employee(
       count: (json['count'] as List<dynamic>?)?.map((e) => e as int).toList() ??
           const [0, 0, 0],
       identity: json['identity'] as String?,
+      transactions: (json['transactions'] as List<dynamic>?)
+              ?.map((e) => Transaction.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$EmployeeToJson(Employee instance) => <String, dynamic>{
@@ -21,4 +25,5 @@ Map<String, dynamic> _$EmployeeToJson(Employee instance) => <String, dynamic>{
       'designation': instance.designation,
       'identity': instance.identity,
       'count': instance.count,
+      'transactions': instance.transactions.map((e) => e.toJson()).toList(),
     };

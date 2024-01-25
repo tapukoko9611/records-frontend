@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import "package:intl/intl.dart";
 import "package:records/blocs/transaction/transaction_bloc.dart";
 import "package:records/models/transaction/transaction.dart";
-import "package:records/widgets/employee/employee_record.dart";
 import "package:records/widgets/transaction/transaction_list.dart";
 
 class TransactionListScreen extends StatefulWidget {
@@ -279,7 +278,7 @@ class _TransactionListScreenState extends State<TransactionListScreen> {
           for(var item in transaction.transactionItems!) {
             var hasItem = false;
             for(int j=0; j<dateWiseList[i]["stationery"].length; j++) {
-              if(dateWiseList[i]["stationery"][j]["name"] == item.item.name) {
+              if(dateWiseList[i]["stationery"][j]["name"] == item.item!.name) {
                 hasItem = true;
                 dateWiseList[i]["stationery"][j]["transactions"] = [
                   ...dateWiseList[i]["stationery"][j]["transactions"],
@@ -302,7 +301,7 @@ class _TransactionListScreenState extends State<TransactionListScreen> {
             }
             if(hasItem==false) {
               dateWiseList[i]["stationery"].add({
-                "name": item.item.name,
+                "name": item.item!.name,
                 "demand": item.type=="DEMAND"? item.quantity: 0,
                 "supply": item.type=="SUPPLY"? item.quantity: 0,
                 "transactions": [
@@ -339,7 +338,7 @@ class _TransactionListScreenState extends State<TransactionListScreen> {
         for(var item in transaction.transactionItems!) {
           var hasItem = false;
           for(int j=0; j<dateWiseList[i]["stationery"].length; j++) {
-            if(dateWiseList[i]["stationery"][j]["name"] == item.item.name) {
+            if(dateWiseList[i]["stationery"][j]["name"] == item.item!.name) {
               hasItem = true;
               dateWiseList[i]["stationery"][j]["transactions"] = [
                 ...dateWiseList[i]["stationery"][j]["transactions"],
@@ -362,7 +361,7 @@ class _TransactionListScreenState extends State<TransactionListScreen> {
           }
           if(hasItem==false) {
             dateWiseList[i]["stationery"].add({
-              "name": item.item.name,
+              "name": item.item!.name,
               "demand": item.type=="DEMAND"? item.quantity: 0,
               "supply": item.type=="SUPPLY"? item.quantity: 0,
               "transactions": [{

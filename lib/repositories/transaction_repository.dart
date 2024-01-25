@@ -9,4 +9,8 @@ class TransactionRepository {
   Future<List<Transaction>> getAllTransactions() {
     return transactionApiClient.getAllTransactions();
   }
+
+  Future<Map> deleteTransaction(id, type) {
+    return transactionApiClient.deleteTransaction(id, type);
+  }
 }

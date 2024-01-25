@@ -1,6 +1,5 @@
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
-import "package:cupertino_icons/cupertino_icons.dart";
 import "package:intl/intl.dart";
 import "package:records/models/transaction/transaction.dart";
 
@@ -393,7 +392,7 @@ Widget EmployeeWiseTransactionDetails(BuildContext context, Transaction transact
                                     alignment: Alignment.centerLeft,
                                     padding: EdgeInsets.only(top: 10, left: 2),
                                     child: Text(
-                                        item.item.name
+                                        item.item!.name
                                     ),
                                   )
                                 ],

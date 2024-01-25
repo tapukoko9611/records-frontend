@@ -42,3 +42,61 @@ final class EmployeeAddFailure extends EmployeeState {
 }
 
 final class EmployeeAddLoading extends EmployeeState {}
+
+
+final class EmployeeUpdateInitial extends EmployeeState {}
+
+final class EmployeeUpdateSuccess extends EmployeeState {
+  final Map updatedEmployee;
+
+  // EmployeeListLoaded({required this.employeeList});
+  EmployeeUpdateSuccess(this.updatedEmployee);
+}
+
+final class EmployeeUpdateFailure extends EmployeeState {
+  final String error;
+
+  EmployeeUpdateFailure(this.error);
+}
+
+final class EmployeeUpdateLoading extends EmployeeState {}
+
+
+final class EmployeeDeleteInitial extends EmployeeState {}
+
+final class EmployeeDeleteSuccess extends EmployeeState {
+  final Map deletedEmployee;
+
+  // EmployeeListLoaded({required this.employeeList});
+  EmployeeDeleteSuccess(this.deletedEmployee);
+}
+
+final class EmployeeDeleteFailure extends EmployeeState {
+  final String error;
+
+  EmployeeDeleteFailure(this.error);
+}
+
+final class EmployeeDeleteLoading extends EmployeeState {}
+
+
+final class EmployeeRecordInitial extends EmployeeState {}
+
+final class EmployeeRecordLoaded extends EmployeeState {
+  final List<Employee> employeeListWithARecord;
+  EmployeeRecordLoaded(this.employeeListWithARecord);
+
+  EmployeeRecordLoaded copyWith({
+    List<Employee>? employeeListWithARecord
+  }) {
+    return EmployeeRecordLoaded(employeeListWithARecord?? this.employeeListWithARecord);
+  }
+}
+
+final class EmployeeRecordFailure extends EmployeeState {
+  final String error;
+
+  EmployeeRecordFailure(this.error);
+}
+
+final class EmployeeRecordLoading extends EmployeeState {}

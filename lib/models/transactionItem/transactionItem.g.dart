@@ -9,7 +9,9 @@ part of 'transactionItem.dart';
 TransactionItem _$TransactionItemFromJson(Map<String, dynamic> json) =>
     TransactionItem(
       id: json['_id'] as String,
-      item: Stationery.fromJson(json['item'] as Map<String, dynamic>),
+      item: json['item'] == null
+          ? null
+          : Stationery.fromJson(json['item'] as Map<String, dynamic>),
       quantity: json['quantity'] as int,
       type: json['type'] as String,
       reference: Reference.fromJson(json['reference'] as Map<String, dynamic>),
@@ -19,7 +21,7 @@ TransactionItem _$TransactionItemFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$TransactionItemToJson(TransactionItem instance) =>
     <String, dynamic>{
       '_id': instance.id,
-      'item': instance.item.toJson(),
+      'item': instance.item?.toJson(),
       'quantity': instance.quantity,
       'type': instance.type,
       'remarks': instance.remarks,

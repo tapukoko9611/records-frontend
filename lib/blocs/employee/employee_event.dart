@@ -16,3 +16,33 @@ final class AddEmployee extends EmployeeEvent {
     required this.identity
   });
 }
+
+final class UpdateEmployee extends EmployeeEvent {
+  final String id;
+  final String designation;
+  final String name;
+  final String identity;
+
+  UpdateEmployee({
+    required this.id,
+    required this.designation,
+    required this.name,
+    required this.identity
+  });
+}
+
+final class DeleteEmployee extends EmployeeEvent {
+  final String id;
+
+  DeleteEmployee({
+    required this.id
+  });
+}
+
+final class GetEmployeeRecord extends EmployeeEvent {
+  final String id;
+
+  GetEmployeeRecord({
+    required this.id
+  });
+}

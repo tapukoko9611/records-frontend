@@ -30,4 +30,22 @@ class TransactionApiClient {
 
     return transactionList;
   }
+
+  Future<Map> deleteTransaction(id, type) async {
+    final url = "$baseUrl/transaction/delete/$id&$type";
+    final res = await httpClient.delete(
+        Uri.parse(url),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.acceptHeader: 'application/json',
+        }
+    );
+
+    if(res.statusCode != 200) {
+      throw Exception(jsonDecode(res.body)["error"]);
+    } else {
+      return jsonDecode(res.body);
+    }
+  }
+
 }
