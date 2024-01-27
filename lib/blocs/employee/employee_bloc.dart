@@ -57,6 +57,12 @@ class EmployeeBloc extends Bloc<EmployeeEvent, EmployeeState> {
           return emit(currentState);
         });
       }
+      if(currentState is EmployeeRecordLoaded) {
+        emit(EmployeeAddFailure(e.toString()));
+        await Future.delayed(const Duration(seconds: 3), () {
+          return emit(currentState);
+        });
+      }
     }
   }
 
@@ -88,6 +94,7 @@ class EmployeeBloc extends Bloc<EmployeeEvent, EmployeeState> {
       //   });
       // }
       if(currentState is EmployeeRecordLoaded) {
+        print(updatedEmployee);
         final List<Employee> updatedEmployeeListWithARecord = List.from(currentState.employeeListWithARecord.map((employee) {
           if(employee.id == event.id) {
             return Employee(
@@ -133,7 +140,7 @@ class EmployeeBloc extends Bloc<EmployeeEvent, EmployeeState> {
       // print("Employee delete bloc Screen state before: ");
       // print(currentState);
         if(currentState is EmployeeRecordLoaded) {
-          emit(EmployeeDeleteSuccess(deletedEmployee));
+          // emit(EmployeeDeleteSuccess(deletedEmployee));
           // final List<Employee> updatedList = List.from(currentState.employeeListWithARecord)..removeWhere((employee) => employee.id==event.id);
           currentState.employeeListWithARecord.removeWhere((employee) => employee.id==event.id);
           emit(EmployeeDeleteSuccess(deletedEmployee));

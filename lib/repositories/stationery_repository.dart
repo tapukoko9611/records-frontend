@@ -22,7 +22,7 @@ class StationeryRepository {
     return stationeryApiClient.deleteStationery(id);
   }
 
-  Future<Stationery> getStationeryRecords(id) {
-    return stationeryApiClient.getStationeryRecords(id);
+  Future<Stationery> getStationeryRecord(id) {
+    return stationeryApiClient.getStationeryRecord(id);
   }
 }

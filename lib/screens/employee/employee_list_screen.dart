@@ -17,7 +17,6 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> with SingleTick
   final TextEditingController _filter = TextEditingController();
   String _searchText = "";
   List<Employee> employeeList = [];
-  List<Employee> empList = [];
   List<Employee> filteredList = [];
   Icon _searchIcon = const Icon(Icons.search);
   Widget _appBarTitle = const Text("Employee List");

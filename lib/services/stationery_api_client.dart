@@ -96,7 +96,7 @@ class StationeryApiClient {
     }
   }
 
-  Future<Stationery> getStationeryRecords(id) async {
+  Future<Stationery> getStationeryRecord(id) async {
     final url = "$baseUrl/query/stationery/$id";
     final res = await httpClient.get(
         Uri.parse(url),
@@ -110,9 +110,9 @@ class StationeryApiClient {
     }
 
     final stationeryJson = jsonDecode(res.body);
-    final stationeryRecords = Stationery.fromJson(stationeryJson);
+    final stationeryRecord = Stationery.fromJson(stationeryJson);
 
-    return stationeryRecords;
+    return stationeryRecord;
   }
 
 }

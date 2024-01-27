@@ -33,10 +33,11 @@ class _EmployeeRecordScreenState extends State<EmployeeRecordScreen> {
   void changeDisplayWise() {
     setState(() {
       displayWise = (displayWise+1)%2;
+      searchType = displayWise==0? 0: 2;
     });
   }
 
-  List<String> searches = ["Date", "Reference"];
+  List<String> searches = ["Date", "Reference", "Stationery"];
   int searchType = 0; // date, reference -%2=0,1
   Widget? searchTypeWidget;
   void changeSearchType() {
@@ -50,7 +51,7 @@ class _EmployeeRecordScreenState extends State<EmployeeRecordScreen> {
       if(_filter.text.isEmpty) {
         setState(() {
           _searchText = "";
-          filteredList = _getDateWiseList(transactionList);
+          filteredList = displayWise==0? _getDateWiseList(transactionList): _getStationeryWiseList(transactionList);
           // tempWidget = AddTransactionButton(context);
         });
       }
@@ -83,8 +84,8 @@ class _EmployeeRecordScreenState extends State<EmployeeRecordScreen> {
         _appBarTitle = TextField(
           controller: _filter,
           decoration:  InputDecoration(
-              prefixIcon: Icon(Icons.search),
-              hintText: "Search by ${searches[searchType]}"
+              // prefixIcon: Icon(Icons.search),
+              hintText: "search..." //"Search by ${searchType==0? searches[0]: searchType==1? searches[1]: searches[2]}"
           ),
           focusNode: focusNode,
         );
@@ -109,13 +110,13 @@ class _EmployeeRecordScreenState extends State<EmployeeRecordScreen> {
       ),
 
       actions: [
-        focusNode.hasPrimaryFocus? IconButton(
+        focusNode.hasPrimaryFocus && displayWise==0? IconButton(
           padding: const EdgeInsets.only(right: 20),
           onPressed: () {
             changeSearchType();
           },
           icon: searchType==0? Icon(Icons.calendar_month): Icon(Icons.tag),
-          tooltip: "Search by ${searches[(searchType+1)%2]}",
+          tooltip: "search...",
         ) : Container(),
         IconButton(
           padding: const EdgeInsets.only(right: 20),
@@ -158,30 +159,25 @@ class _EmployeeRecordScreenState extends State<EmployeeRecordScreen> {
               }
 
               employee =  List.from(state.employeeListWithARecord).firstWhere((employee) => employee.id == widget.id);
-              print(state.employeeListWithARecord.firstWhere((employee) => employee.id == widget.id).transactions);
+              // print(state.employeeListWithARecord.firstWhere((employee) => employee.id == widget.id).transactions);
               transactionList = List.from(employee!.transactions);
-              print(transactionList);
               transactionList.sort((a, b) => a.date.isBefore(b.date) == true? 1: 0);
               filteredList = displayWise==0? _getDateWiseList(transactionList): _getStationeryWiseList(transactionList);
-              // print(_getStationeryWiseList(transactionList));
-              // tempWidget = AddTransactionButton(context);
 
               if(_searchText.isNotEmpty) {
                 if (searchType==0) {
-                  filteredList = filteredList.where((item) =>
-                      item["date"].contains(_searchText.toUpperCase())
+                  filteredList = filteredList.where((transaction) =>
+                      DateFormat('d-M-y').format(transaction.date).contains(_searchText.toUpperCase())
+                  ).toList();
+                } else if (searchType==1) {
+                  filteredList = filteredList.where((transaction) =>
+                      transaction.reference.contains(_searchText.toUpperCase())
                   ).toList();
                 } else {
-                  filteredList = filteredList.where((item) =>
-                      item["reference"].contains(_searchText.toUpperCase())
+                  filteredList = filteredList.where((stationery) =>
+                  stationery["name"].contains(_searchText.toUpperCase())
                   ).toList();
                 }
-                // if (filteredList.isNotEmpty) {
-                //   tempWidget = const SizedBox(height: 10,);
-                // }
-                // else {
-                //   tempWidget = AddTransactionButton(context);
-                // }
               }
 
               return GestureDetector(
@@ -192,7 +188,7 @@ class _EmployeeRecordScreenState extends State<EmployeeRecordScreen> {
                     keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                     child: Column(
                         children: [
-                          TitleCard(designation: employee!.designation, name: employee!.name, context: context),
+                          TitleCard(designation: employee!.designation, identity: employee!.identity!, name: employee!.name, context: context),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -205,21 +201,6 @@ class _EmployeeRecordScreenState extends State<EmployeeRecordScreen> {
                               )
                             ],
                           ),
-                          // tempWidget!,
-                          // ...filteredList.map((dateWise) {
-                          //   if(showWise==1 && dateWise["hasDemand"]==true) {
-                          //     return EmployeeWiseWidget(date: dateWise["date"], transactions: dateWise["transactions"], show: showWise,);
-                          //   }
-                          //   else if(showWise==2 && dateWise["hasSupply"]==true) {
-                          //     return EmployeeWiseWidget(date: dateWise["date"], transactions: dateWise["transactions"], show: showWise,);
-                          //   }
-                          //   else{
-                          //     return EmployeeWiseWidget(date: dateWise["date"], transactions: dateWise["transactions"], show: showWise,);
-                          //   }
-                          //   // else {
-                          //   //   return Container();
-                          //   // }
-                          // }).toList()
                           ..._buildListBody(context, filteredList)
                         ]
                     )
@@ -236,204 +217,54 @@ class _EmployeeRecordScreenState extends State<EmployeeRecordScreen> {
         return EmployeeWiseWidget(date: DateFormat('d-M-y').format(transaction.date), transaction: transaction);
       }).toList();
     }
-    // else {
-    //   return filteredList.map((dateWise) {
-    //     if(showWise==1 && dateWise["hasDemand"]==true) {
-    //       return StationeryWiseWidget(date: dateWise["date"], transactions: dateWise["stationery"], show: showWise,);
-    //     }
-    //     else if(showWise==2 && dateWise["hasSupply"]==true) {
-    //       print(dateWise);
-    //       return StationeryWiseWidget(date: dateWise["date"], transactions: dateWise["stationery"], show: showWise,);
-    //     }
-    //     else if(showWise==0){
-    //       return StationeryWiseWidget(date: dateWise["date"], transactions: dateWise["stationery"], show: showWise,);
-    //     }
-    //     else {
-    //       return Container();
-    //     }
-    //   }).toList();
-    // }
-    else return [Container()];
+    else {
+      return filteredList.map((transaction) {
+        return StationeryWiseWidget(transaction: transaction);
+      }).toList();
+    }
   }
 
   List<dynamic> _getDateWiseList(List<Transaction> list) {
-    // var dateWiseList = [];
-    // for (var transaction in list) {
-    //   var date = DateFormat('d-M-y').format(transaction.date);
-    //   bool hasDate = false;
-    //   for (int i=0; i<dateWiseList.length; i++) {
-    //     if(dateWiseList[i]!={} && dateWiseList[i]["date"] == date) {
-    //       hasDate = true;
-    //       dateWiseList[i]["transactions"] = [
-    //         ...dateWiseList[i]["transactions"],
-    //         transaction
-    //       ];
-    //       if(transaction.employee!=null) {
-    //         dateWiseList[i]["hasDemand"] = true;
-    //       }
-    //       if(transaction.supplier!=null) {
-    //         dateWiseList[i]["hasSupply"] = true;
-    //       }
-    //     }
-    //   }
-    //   if (!hasDate) {
-    //     dateWiseList.add({
-    //       "date": date,
-    //       "transactions": [transaction],
-    //       "hasDemand": transaction.employee!=null? true: false,
-    //       "hasSupply": transaction.supplier!=null? true: false,
-    //     });
-    //   }
-    // }
     return list;
   }
 
   List<dynamic> _getStationeryWiseList(List<Transaction> list) {
-    var dateWiseList = [];
+    var stationeryWiseList = [];
     for(var transaction in list) {
-      var hasDate = false;
-      for(int i=0; i<dateWiseList.length; i++) {
-        if(dateWiseList[i]["date"] == DateFormat('d-M-y').format(transaction.date)) {
-          hasDate = true;
-          for(var item in transaction.transactionItems!) {
-            var hasItem = false;
-            for(int j=0; j<dateWiseList[i]["stationery"].length; j++) {
-              if(dateWiseList[i]["stationery"][j]["name"] == item.item!.name) {
-                hasItem = true;
-                dateWiseList[i]["stationery"][j]["transactions"] = [
-                  ...dateWiseList[i]["stationery"][j]["transactions"],
-                  {
-                    "person": transaction.employee!=null? transaction.employee!.designation: transaction.supplier!=null? transaction.supplier!.organization: "DELETED SUPPLIER",
-                    "reference": transaction.reference,
-                    "quantity": item.quantity,
-                    "remarks": transaction.remarks+item.remarks
-                  }
-                ];
-                if(item.type=="DEMAND") {
-                  dateWiseList[i]["stationery"][j]["demand"] += item.quantity;
-                  dateWiseList[i]["hasDemand"] = true;
-                }
-                else if(item.type=="SUPPLY") {
-                  dateWiseList[i]["stationery"][j]["supply"] += item.quantity;
-                  dateWiseList[i]["hasSupply"] = true;
-                }
-              }
-            }
-            if(hasItem==false) {
-              dateWiseList[i]["stationery"].add({
-                "name": item.item!.name,
-                "demand": item.type=="DEMAND"? item.quantity: 0,
-                "supply": item.type=="SUPPLY"? item.quantity: 0,
-                "transactions": [
-                  {
-                    "person": transaction.employee != null
-                        ? transaction.employee!.designation
-                        : transaction.supplier != null
-                        ? transaction.supplier!.organization
-                        : "DELETED SUPPLIER",
-                    "reference": transaction.reference,
-                    "quantity": item.quantity,
-                    "remarks": transaction.remarks + item.remarks
-                  }
-                ]
-              });
-              if(item.type=="DEMAND") {
-                dateWiseList[i]["hasDemand"] = true;
-              }
-              else if(item.type=="SUPPLY") {
-                dateWiseList[i]["hasSupply"] = true;
-              }
-            }
-          }
-        }
-      }
-      if(hasDate==false) {
-        dateWiseList.add({
-          "date": DateFormat('d-M-y').format(transaction.date),
-          "hasDemand": false,
-          "hasSupply": false,
-          "stationery": []
-        });
-        var i = dateWiseList.length-1;
-        for(var item in transaction.transactionItems!) {
+      for(var item in transaction.transactionItems!) {
           var hasItem = false;
-          for(int j=0; j<dateWiseList[i]["stationery"].length; j++) {
-            if(dateWiseList[i]["stationery"][j]["name"] == item.item!.name) {
+          for(int j=0; j<stationeryWiseList.length; j++) {
+            if(stationeryWiseList[j]["name"] == item.item!.name) {
               hasItem = true;
-              dateWiseList[i]["stationery"][j]["transactions"] = [
-                ...dateWiseList[i]["stationery"][j]["transactions"],
+              stationeryWiseList[j]["transactions"] = [
+                ...stationeryWiseList[j]["transactions"],
                 {
-                  "person": transaction.employee!=null? transaction.employee!.designation: transaction.supplier!=null? transaction.supplier!.organization: "DELETED SUPPLIER",
+                  "date": DateFormat('d-M-y').format(transaction.date),
                   "reference": transaction.reference,
                   "quantity": item.quantity,
-                  "remarks": transaction.remarks+item.remarks
+                  "remarks": "${transaction.remarks} ${item.remarks}"
                 }
               ];
-              if(item.type=="DEMAND") {
-                dateWiseList[i]["stationery"][j]["demand"] += item.quantity;
-                dateWiseList[i]["hasDemand"] = true;
-              }
-              else if(item.type=="SUPPLY") {
-                dateWiseList[i]["stationery"][j]["supply"] += item.quantity;
-                dateWiseList[i]["hasSupply"] = true;
-              }
+              stationeryWiseList[j]["quantity"] += item.quantity;
             }
           }
           if(hasItem==false) {
-            dateWiseList[i]["stationery"].add({
+            stationeryWiseList.add({
               "name": item.item!.name,
-              "demand": item.type=="DEMAND"? item.quantity: 0,
-              "supply": item.type=="SUPPLY"? item.quantity: 0,
-              "transactions": [{
-                "person": transaction.employee!=null? transaction.employee!.designation: transaction.supplier!=null? transaction.supplier!.organization: "DELETED SUPPLIER",
-                "reference": transaction.reference,
-                "quantity": item.quantity,
-                "remarks": transaction.remarks+item.remarks
-              }]
+              "quantity": item.quantity,
+              "transactions": [
+                {
+                  "date": DateFormat('d-M-y').format(transaction.date),
+                  "reference": transaction.reference,
+                  "quantity": item.quantity,
+                  "remarks": "${transaction.remarks} ${item.remarks}"
+                }
+              ]
             });
-            if(item.type=="DEMAND") {
-              dateWiseList[i]["hasDemand"] = true;
-            }
-            else if(item.type=="SUPPLY") {
-              dateWiseList[i]["hasSupply"] = true;
-            }
           }
         }
-      }
     }
-    return dateWiseList;
+    return stationeryWiseList;
   }
-
-// @override
-// Widget build(BuildContext context) {
-//   return SingleChildScrollView(
-//     physics: const ClampingScrollPhysics(),
-//     scrollDirection: Axis.vertical,
-//     clipBehavior: Clip.hardEdge,
-//     child: Container(
-//       decoration: const BoxDecoration(
-//         color: Colors.teal,
-//         borderRadius: BorderRadius.all(Radius.circular(10)),
-//       ),
-//       child: Column(
-//         children: [
-//           const SizedBox(height: 100,),
-//           Container(
-//             color: Colors.limeAccent,
-//             child: const Column(
-//               children: [
-//                 DateWiseWidget(),
-//                 DateWiseWidget(),
-//                 DateWiseWidget(),
-//                 DateWiseWidget(),
-//                 DateWiseWidget(),
-//               ],
-//             ),
-//           )
-//         ],
-//       ),
-//     ),
-//   );
-// }
 
 }

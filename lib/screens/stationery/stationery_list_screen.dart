@@ -114,12 +114,17 @@ class _StationeryListScreenState extends State<StationeryListScreen> with Single
                     child: Text("Error: ${state.error}.\n Please Reload")
                 );
               }
-
-              if(state is! StationeryListLoaded) {
+              if(state is StationeryListLoading) {
                 return const Center(child: CircularProgressIndicator.adaptive(),);
               }
+              if(state is StationeryListLoaded) {
+                stationeryList =  state.stationeryList;
+              }
+              if(state is StationeryRecordLoaded) {
+                stationeryList = state.stationeryListWithARecord;
+              }
 
-              stationeryList =  state.stationeryList;
+
               stationeryList.sort((a, b) => a.name.compareTo(b.name));
               filteredList = stationeryList;
               tempWidget = AddStationeryButton(context, stationeryList);
@@ -147,11 +152,13 @@ class _StationeryListScreenState extends State<StationeryListScreen> with Single
                         tempWidget!,
                         ...filteredList.map((item) {
                           return SingleItemCard(
+                              id: item.id,
                               name: item.name,
                               quantity: item.quantity,
                               image: item.image,
                               demand: item.demand,
-                              supply: item.supply
+                              supply: item.supply,
+                             context: context
                           );
                         }).toList(),
                       ]

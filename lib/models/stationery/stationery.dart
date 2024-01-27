@@ -24,7 +24,7 @@ class Stationery {
     required this.id,
     required this.name,
     required this.quantity,
-    this.image,
+    this.image = "https://imgs.search.brave.com/zXRp6Z2JMNEagn7FTUoCDRJhYMEagoduO18HCxwuRDI/rs:fit:500:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzA0Lzk0LzkxLzA3/LzM2MF9GXzQ5NDkx/MDc2OF85a1I5V1Zw/ZVk0bGlGRmNwUVpW/QnplN3ZvcWZNMFFF/Vy5qcGc",
     this.demand = const [0, 0 ,0],
     this.supply = const [0, 0, 0],
     this.transactions = const []
