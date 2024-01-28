@@ -3,17 +3,16 @@ part of "transaction_bloc.dart";
 @immutable
 sealed class TransactionState {}
 
-
 final class TransactionInitial extends TransactionState {}
 
 final class TransactionListLoaded extends TransactionState {
-  final List<Transaction> transactionList;
-  TransactionListLoaded(this.transactionList);
+  final Skeleton skeleton;
+  TransactionListLoaded(this.skeleton);
 
   TransactionListLoaded copyWith({
-    List<Transaction>? transactionList
+    Skeleton? skeleton
   }) {
-    return TransactionListLoaded(transactionList?? this.transactionList);
+    return TransactionListLoaded(skeleton?? this.skeleton);
   }
 }
 

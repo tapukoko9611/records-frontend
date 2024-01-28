@@ -4,6 +4,7 @@ import "dart:io";
 import 'package:http/http.dart' as http;
 
 import "package:records/constants/constants.dart";
+import "package:records/models/skeleton/skeleton.dart";
 import "package:records/models/transaction/transaction.dart";
 
 class TransactionApiClient {
@@ -12,7 +13,7 @@ class TransactionApiClient {
 
   TransactionApiClient({http.Client? httpClient}) : httpClient = httpClient ?? http.Client();
 
-  Future<List<Transaction>> getAllTransactions() async {
+  Future<Skeleton> getAllTransactions() async {
     final url = "$baseUrl/query/transaction/";
     final res = await httpClient.get(
         Uri.parse(url),
@@ -25,10 +26,11 @@ class TransactionApiClient {
       throw Exception(jsonDecode(res.body)["error"]);
     }
 
-    final transactionJson = jsonDecode(res.body) as List;
-    final transactionList = transactionJson.map((e) => Transaction.fromJson(e)).toList();
+    final skeletonJson = jsonDecode(res.body);
+    final skeleton = Skeleton.fromJson(skeletonJson);
+    // final transactionList = transactionJson.map((e) => Transaction.fromJson(e)).toList();
 
-    return transactionList;
+    return skeleton;
   }
 
   Future<Map> deleteTransaction(id, type) async {

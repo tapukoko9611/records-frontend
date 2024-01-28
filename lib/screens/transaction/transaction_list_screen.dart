@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import 'package:flutter_bloc/flutter_bloc.dart';
 import "package:intl/intl.dart";
 import "package:records/blocs/transaction/transaction_bloc.dart";
+import "package:records/models/skeleton/skeleton.dart";
 import "package:records/models/transaction/transaction.dart";
 import "package:records/widgets/transaction/transaction_list.dart";
 
@@ -16,15 +17,16 @@ class _TransactionListScreenState extends State<TransactionListScreen> {
 
   final TextEditingController _filter = TextEditingController();
   String _searchText = "";
-  List<Transaction> transactionList = [];
-  List<dynamic> filteredList = [];
+  Skeleton skeleton = Skeleton();
+  List<Transaction>? transactionList;
+  List<dynamic>? filteredList;
   Icon _searchIcon = const Icon(Icons.search);
   Widget _appBarTitle = const Text("Transaction List");
   FocusNode focusNode = FocusNode();
 
   Widget? tempWidget;
 
-  List<String> displays = ["EMPLOYEE WISE", "STATIONERY WISE"];
+  List<String> displays = ["PERSON WISE", "STATIONERY WISE"];
   int displayWise = 0; // employee, stationery - %2=0,1
   // Widget? displayWiseWidget;
   void changeDisplayWise() {
@@ -48,7 +50,7 @@ class _TransactionListScreenState extends State<TransactionListScreen> {
       if(_filter.text.isEmpty) {
         setState(() {
           _searchText = "";
-          filteredList = _getEmployeeWiseList(transactionList);
+          filteredList = _getEmployeeWiseList(transactionList!);
           tempWidget = AddTransactionButton(context);
         });
       }
@@ -91,7 +93,7 @@ class _TransactionListScreenState extends State<TransactionListScreen> {
       else {
         _searchIcon = const Icon(Icons.search);
         _appBarTitle = const Text("Transaction List");
-        filteredList = displayWise==0? _getEmployeeWiseList(transactionList): _getStationeryWiseList(transactionList);
+        filteredList = displayWise==0? _getEmployeeWiseList(transactionList!): _getStationeryWiseList(transactionList!);
         _filter.clear();
       }
     });
@@ -140,17 +142,18 @@ class _TransactionListScreenState extends State<TransactionListScreen> {
                 return const Center(child: CircularProgressIndicator.adaptive(),);
               }
 
-              transactionList =  state.transactionList;
-              transactionList.sort((a, b) => a.date.isBefore(b.date) == true? 1: 0);
-              filteredList = displayWise==0? _getEmployeeWiseList(transactionList): _getStationeryWiseList(transactionList);
+              skeleton = state.skeleton;
+              transactionList =  skeleton!.transactions;
+              transactionList!.sort((a, b) => a.date.isBefore(b.date) == true? 1: 0);
+              filteredList = displayWise==0? _getEmployeeWiseList(transactionList!): _getStationeryWiseList(transactionList!);
               // print(_getStationeryWiseList(transactionList));
               tempWidget = AddTransactionButton(context);
 
               if(_searchText.isNotEmpty) {
-                filteredList = filteredList.where((item) =>
+                filteredList = filteredList!.where((item) =>
                     item["date"].contains(_searchText.toUpperCase())
                 ).toList();
-                if (filteredList.isNotEmpty) {
+                if (filteredList!.isNotEmpty) {
                   tempWidget = const SizedBox(height: 10,);
                 }
                 else {
@@ -189,7 +192,7 @@ class _TransactionListScreenState extends State<TransactionListScreen> {
                           //   //   return Container();
                           //   // }
                           // }).toList()
-                          ..._buildListBody(context, filteredList)
+                          ..._buildListBody(context, filteredList!)
                         ]
                     )
                 ),

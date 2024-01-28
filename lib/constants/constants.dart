@@ -23,5 +23,5 @@ class Constants {
     TWEET,
     USER,
   ];
-  static String BASE_URL = getUrl();
+  static String BASE_URL = getUrl1();
 }

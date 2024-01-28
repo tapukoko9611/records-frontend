@@ -1,5 +1,6 @@
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter/material.dart";
+import "package:records/models/skeleton/skeleton.dart";
 
 import "package:records/models/transaction/transaction.dart";
 import "package:records/repositories/transaction_repository.dart";
@@ -17,8 +18,8 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
   void _getTransactionList(FetchTransactionList event, Emitter<TransactionState> emit) async {
     emit(TransactionListLoading());
     try {
-      final transactionList = await transactionRepository.getAllTransactions();
-      emit(TransactionListLoaded(transactionList));
+      final skeleton = await transactionRepository.getAllTransactions();
+      emit(TransactionListLoaded(skeleton));
     } catch(e) {
       emit(TransactionListFailure(e.toString()));
     }

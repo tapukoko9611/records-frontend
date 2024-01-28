@@ -11,7 +11,7 @@ import 'package:records/repositories/transaction_repository.dart';
 
 import 'package:records/screens/employee/employee_list_screen.dart';
 import 'package:records/screens/stationery/stationery_list_screen.dart';
-import 'package:records/screens/transaction/transaction_list.dart';
+import 'package:records/screens/transaction/transaction_list_screen.dart';
 import 'package:records/services/employee_api_client.dart';
 import 'package:records/services/stationery_api_client.dart';
 import 'package:records/services/transaction_api_client.dart';
