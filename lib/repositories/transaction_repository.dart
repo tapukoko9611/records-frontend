@@ -14,4 +14,16 @@ class TransactionRepository {
   Future<Map> deleteTransaction(id, type) {
     return transactionApiClient.deleteTransaction(id, type);
   }
+
+  Future<Transaction> addTransaction(Map transaction) {
+    return transactionApiClient.addTransaction(
+      type: transaction["type"],
+      person: transaction["person"],
+      date: transaction["date"],
+      reference: transaction["reference"],
+      remarks: transaction["remarks"],
+      price: transaction["price"]?? 0,
+      list: transaction["list"],
+    );
+  }
 }

@@ -50,4 +50,33 @@ class TransactionApiClient {
     }
   }
 
+  Future<Transaction> addTransaction({type, person, date, reference, remarks, price=0, list}) async {
+    final url = "$baseUrl/transaction/${type=="DEMAND"? "demand": "supply"}";
+    final res = await httpClient.post(
+      Uri.parse(url),
+      headers: {
+        HttpHeaders.contentTypeHeader: 'application/json',
+        HttpHeaders.acceptHeader: 'application/json',
+      },
+      body: jsonEncode(
+        {
+          type=="DEMAND"? "employee": "supplier": person,
+          "reference": reference,
+          "date": date.toString(),
+          "remarks": remarks,
+          "list": list,
+          "image": "",
+          "price": price
+        },
+      ),
+    );
+
+    if(res.statusCode != 200) {
+      throw Exception(jsonDecode(res.body)["error"]);
+    }
+    print(res.body);
+    final addedTransaction = Transaction.fromJson(jsonDecode(res.body));
+    return addedTransaction;
+  }
+
 }

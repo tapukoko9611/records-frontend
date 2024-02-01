@@ -2,16 +2,18 @@ import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:intl/intl.dart";
 import "package:records/models/transaction/transaction.dart";
+import "package:records/screens/transaction/add_transaction.dart";
 
 
 Widget AddTransactionButton(BuildContext context, ){ // List<Stationery> stationeryList) {
   return GestureDetector(
     onTap: () {
-      showDialog(
-          context: context,
-          // builder: (context) => AddStationeryWidget(stationeryList: stationeryList)
-          builder: (context) => AlertDialog(content: Container(child: Text("Add transaction"),),)
-      );
+      // showDialog(
+      //     context: context,
+      //     // builder: (context) => AddStationeryWidget(stationeryList: stationeryList)
+      //     builder: (context) => AlertDialog(content: Container(child: Text("Add transaction"),),)
+      // );
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddTransaction(),));
     },
     child: Container(
         width: MediaQuery

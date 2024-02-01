@@ -1,0 +1,46 @@
+/*
+
+  type:
+  date:
+  reference:
+  employee:
+    - employee designation hints * 3
+  remarks:
+  item list: [
+    {
+      item name:
+        - item name hints, quantities * 3
+      quantity:
+      remarks:
+      remove button
+    }
+    add button
+  ]
+  cancel button
+  confirm button -> confirm dialog popup
+
+*/
+
+/*
+
+  type:
+  date:
+  reference:
+  supplier:
+    - supplier organization hints * 3
+  remarks:
+  price:
+  item list: [
+    {
+      item name:
+        - item name hints, quantities * 3
+      quantity:
+      remarks:
+      remove button
+    }
+    add button
+  ]
+  cancel button
+  confirm button -> confirm dialog popup
+
+*/

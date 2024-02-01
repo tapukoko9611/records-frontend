@@ -42,6 +42,7 @@ dependencies:
   json_serializable: ^6.5.3
   shared_preferences: ^2.0.15
   scrollable_reorderable_navbar:
+  dropdown_search:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
